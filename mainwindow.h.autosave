@@ -19,6 +19,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QStringList wordList;
+    void createList();
 };
 
 #endif // MAINWINDOW_H

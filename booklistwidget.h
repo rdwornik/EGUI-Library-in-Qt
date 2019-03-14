@@ -2,10 +2,31 @@
 #define BOOKLISTWIDGET_H
 
 
-class bookListWidget
+#include<QTableWidget>
+#include<QSortFilterProxyModel>
+#include"tablemodel.h"
+class bookListWidget : public QTableWidget
 {
+
+    Q_OBJECT
+
 public:
-    bookListWidget();
+    bookListWidget(QWidget *parent = 0);
+    void readFromFile();
+
+public slots:
+    void showAddEntryDialog();
+    void addEntry(QString author,QString title, QString year);
+    void editEntry();
+    void removeEntry();
+
+signals:
+    void selectionChanged(const QItemSelection &selected);
+private:
+    TableModel *table;
+    QTableView *tableView;
+    QSortFilterProxyModel *proxyModel;
+
 };
 
 #endif // BOOKLISTWIDGET_H

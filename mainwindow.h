@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QStringList>
+#include <QtCore>
+#include <QtGui>
+#include <booklistwidget.h>
 namespace Ui {
 class MainWindow;
 }
@@ -13,12 +16,26 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow();
     ~MainWindow();
+
+private slots:
+        void updateActions(const QItemSelection &selection);
+        void openFile();
 
 private:
     Ui::MainWindow *ui;
-    QStringList wordList;
+    void createMenus();
+    bookListWidget *BookListWidget;
+    QMenu *fileMenu;
+    QMenu *toolMenu;
+    QAction *openAct;
+    QAction *saveAct;
+    QAction *exitAct;
+    QAction *addAct;
+    QAction *editAct;
+    QAction *removeAct;
+    void setMenuBarGrey();
 };
 
 #endif // MAINWINDOW_H

@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    tablemodel.cpp \
+    booklistwidget.cpp \
+    adddialog.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    tablemodel.h \
+    booklistwidget.h \
+    adddialog.h
 
 FORMS += \
         mainwindow.ui

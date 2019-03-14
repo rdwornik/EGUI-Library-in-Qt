@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setMenuBarGrey();
 
     QTableView *table1 = ui->tableBookView;
-    bookListWidget = new BookListWidget((table1));
+    bookListWidget = new BookListWidget((table));
     setCentralWidget(bookListWidget);
     createMenus();
     setWindowTitle(tr("Book List"));

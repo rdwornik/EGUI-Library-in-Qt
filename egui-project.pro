@@ -38,7 +38,7 @@ HEADERS += \
     adddialog.h
 
 FORMS += \
-        mainwindow.ui
+    booklistwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

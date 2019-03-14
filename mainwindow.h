@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow();
+    explicit MainWindow(QWidget * parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void createMenus();
-    bookListWidget *BookListWidget;
+    BookListWidget *bookListWidget;
     QMenu *fileMenu;
     QMenu *toolMenu;
     QAction *openAct;

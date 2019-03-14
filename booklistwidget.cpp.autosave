@@ -5,6 +5,8 @@
 #include <QtDebug>
 #include <sstream>
 #include <adddialog.h>
+#include <mainwindow.h>
+
 BookListWidget::BookListWidget(QWidget *parent,QTableView* View)
 {
     table = new TableModel(this);
@@ -12,7 +14,7 @@ BookListWidget::BookListWidget(QWidget *parent,QTableView* View)
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(table);
     proxyModel->setFilterKeyColumn(2);
-
+    
     tableView = View;
     tableView->setModel(proxyModel);
 

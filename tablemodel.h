@@ -8,16 +8,16 @@ struct Book{
     QString author;
     QString year;
 
-    Book(){
-        QString title = NULL;
-        QString author = NULL;
-        QString year = NULL;
-    }
-    Book(const QStringList& data){
-            this->author = data[0];
-            this->title = data[1];
-            this->year = data[2];
-        }
+//    Book(){
+//        QString title = NULL;
+//        QString author = NULL;
+//        QString year = NULL;
+//    }
+//    Book(const QStringList& data){
+//            this->author = data[0];
+//            this->title = data[1];
+//            this->year = data[2];
+//        }
 
     bool operator==(const Book &other) const{
         return (title == other.title &&
@@ -50,8 +50,8 @@ public:
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
         Qt::ItemFlags flags(const QModelIndex &index) const override;
         bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-        bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
         bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+        bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
         QList<Book> getBooks() const;
 
 private:

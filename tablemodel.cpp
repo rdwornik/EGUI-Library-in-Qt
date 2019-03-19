@@ -1,5 +1,5 @@
 #include "tablemodel.h"
-
+#include <QString>
 
 TableModel::TableModel(QObject *parent)
     : QAbstractTableModel (parent)
@@ -92,6 +92,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
                 book.title = value.toString();
             else if (index.column() == 2)
                 book.year = value.toString();
+            else
                 return false;
 
             books.replace(row, book);
@@ -106,10 +107,11 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
 bool TableModel::insertRows(int position, int rows, const QModelIndex &index)
 {
     Q_UNUSED(index);
+
         beginInsertRows(QModelIndex(), position, position + rows - 1);
 
         for (int row = 0; row < rows; ++row)
-            books.insert(position, Book());
+            books.insert(position,{QString(), QString(),QString()});
 
         endInsertRows();
         return true;

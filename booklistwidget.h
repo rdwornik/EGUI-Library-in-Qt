@@ -11,7 +11,7 @@ class BookListWidget : public QTableWidget
     Q_OBJECT
 
 public:
-    BookListWidget(QWidget *parent = 0, QTableView* table = NULL);
+    BookListWidget(QWidget *parent = 0);
     void readFromFile();
 
 public slots:

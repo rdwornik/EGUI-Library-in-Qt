@@ -5,7 +5,8 @@
 #include <QtDebug>
 #include <sstream>
 #include <adddialog.h>
-BookListWidget::BookListWidget(QWidget *parent,QTableView* View)
+
+BookListWidget::BookListWidget(QWidget *parent)
 {
     table = new TableModel(this);
 
@@ -13,7 +14,7 @@ BookListWidget::BookListWidget(QWidget *parent,QTableView* View)
     proxyModel->setSourceModel(table);
     proxyModel->setFilterKeyColumn(2);
 
-    tableView = View;
+    //tableView = View;
     tableView->setModel(proxyModel);
 
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -31,7 +32,7 @@ BookListWidget::BookListWidget(QWidget *parent,QTableView* View)
 void BookListWidget::readFromFile()
 {
     QString filename = QFileDialog::getOpenFileName (nullptr, "Open dat file",
-                                                         QDir::currentPath(), "dat (*.dat)");
+                                                         QDir::currentPath(), "dat (*.csv)");
     QFile file(filename);
 
     if(!file.open(QIODevice::ReadOnly)){
@@ -48,7 +49,11 @@ void BookListWidget::readFromFile()
       for(QString it : line.split(',')){
           bookData.push_back(it);
           if(bookData.size() == 3){
-              Book bookdata(bookData);
+              Book bookdata;
+              bookdata.author = bookData[0];
+              bookdata.title = bookData[1];
+              bookdata.year = bookData[2];
+
               books.push_back(bookdata);
               bookData.clear();
           }

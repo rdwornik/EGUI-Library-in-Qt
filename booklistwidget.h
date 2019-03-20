@@ -13,16 +13,20 @@ class BookListWidget : public QTableWidget
 public:
     BookListWidget(QWidget *parent = 0);
     void readFromFile();
-
+    void setUp();
+    QVector<QString> setComboBox();
 public slots:
-    void showAddEntryDialog();
+ //  void showAddEntryDialog();
     void addEntry(QString author,QString title, QString year);
     void editEntry();
     void removeEntry();
+    void setTableView(QTableView*& tableview);
+    void filterEntry(QString author,QString title, QString year);
 
 signals:
     void selectionChanged(const QItemSelection &selected);
 private:
+
     TableModel *table;
     QTableView *tableView;
     QSortFilterProxyModel *proxyModel;

@@ -10,7 +10,6 @@ namespace Ui {
 class MainWindow;
 }
 
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,14 +17,25 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget * parent = nullptr);
     ~MainWindow();
+    QTableView *tableview;
 
 private slots:
         void updateActions(const QItemSelection &selection);
         void openFile();
-        void readFromFile();
+
+public slots:
+        void addEntry();
+        void filterEntry();
+signals:
+        void sendDetails(QString author, QString title, QString year);
+        void sendFilter(QString author, QString title, QString year);
+        void passRefernceToTableView(QTableView*& tableView);
+
 private:
     Ui::MainWindow *ui;
+
     void createMenus();
+
     BookListWidget *bookListWidget;
     QMenu *fileMenu;
     QMenu *toolMenu;
@@ -35,26 +45,10 @@ private:
     QAction *addAct;
     QAction *editAct;
     QAction *removeAct;
+
     void setMenuBarGrey();
     void setupTabs();
-
-
-
-
-public slots:
-    void showAddEntryDialog();
-    void addEntry(QString author,QString title, QString year);
-    void editEntry();
-    void removeEntry();
-
-signals:
-    void selectionChanged(const QItemSelection &selected);
-signals:
-    void sendDetails(QString author,QString title, QString year);
-private:
-    TableModel *table;
-    QTableView *tableView;
-    QSortFilterProxyModel *proxyModel;
+    void emitQtableSignal();
 };
 
 #endif // MAINWINDOW_H

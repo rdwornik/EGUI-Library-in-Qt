@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -61,17 +61,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox"/>
+        <widget class="QComboBox" name="yearComboBox"/>
        </item>
        <item>
-        <widget class="QPushButton" name="filterButton">
+        <widget class="QPushButton" name="filterBooksButton">
          <property name="text">
           <string>Filter</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="clearButton">
+        <widget class="QPushButton" name="clearFilterDialogButton">
          <property name="text">
           <string>Clear</string>
          </property>

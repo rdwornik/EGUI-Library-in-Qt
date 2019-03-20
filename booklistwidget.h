@@ -27,7 +27,7 @@ signals:
     void selectionChanged(const QItemSelection &selected);
 private:
 
-    TableModel *table;
+
     QTableView *tableView;
     QSortFilterProxyModel *proxyModel;
 

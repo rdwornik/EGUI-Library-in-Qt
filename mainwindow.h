@@ -5,7 +5,9 @@
 #include <QStringList>
 #include <QtCore>
 #include <QtGui>
-#include <booklistwidget.h>
+#include <QTableView>
+
+#include "tablemodel.h"
 namespace Ui {
 class MainWindow;
 }
@@ -17,38 +19,30 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget * parent = nullptr);
     ~MainWindow();
-    QTableView *tableview;
 
 private slots:
         void updateActions(const QItemSelection &selection);
         void openFile();
 
 public slots:
-        void addEntry();
+        void addEntrySlot();
+        void editEntry();
+        void removeEntry();
         void filterEntry();
+
 signals:
-        void sendDetails(QString author, QString title, QString year);
-        void sendFilter(QString author, QString title, QString year);
-        void passRefernceToTableView(QTableView*& tableView);
+        void selectionChanged(const QItemSelection &selected);
 
 private:
     Ui::MainWindow *ui;
 
-    void createMenus();
-
-    BookListWidget *bookListWidget;
-    QMenu *fileMenu;
-    QMenu *toolMenu;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *exitAct;
-    QAction *addAct;
-    QAction *editAct;
-    QAction *removeAct;
-
     void setMenuBarGrey();
-    void setupTabs();
-    void emitQtableSignal();
+    void setUpModels();
+    void addEntry(QString author, QString title, QString year);
+
+    QSortFilterProxyModel *proxyModel;
+    TableModel *table;
+    QTableView *tableView;
 };
 
 #endif // MAINWINDOW_H

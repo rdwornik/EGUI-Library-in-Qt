@@ -8,17 +8,6 @@ struct Book{
     QString author;
     QString year;
 
-//    Book(){
-//        QString title = NULL;
-//        QString author = NULL;
-//        QString year = NULL;
-//    }
-//    Book(const QStringList& data){
-//            this->author = data[0];
-//            this->title = data[1];
-//            this->year = data[2];
-//        }
-
     bool operator==(const Book &other) const{
         return (title == other.title &&
                 author == other.author &&
@@ -41,8 +30,8 @@ class TableModel : public QAbstractTableModel
 {
      Q_OBJECT
 public:
-    TableModel(QObject *parent = 0);
-    TableModel(QList<Book> book, QObject *parent = 0);
+        TableModel(QObject *parent = 0);
+        TableModel(QList<Book> book, QObject *parent = 0);
 
         int rowCount(const QModelIndex &parent) const override;
         int columnCount(const QModelIndex &parent) const override;

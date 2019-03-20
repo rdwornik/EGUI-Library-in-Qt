@@ -12,7 +12,7 @@
 #include <iterator>
 BookListWidget::BookListWidget(QWidget *parent)
 {
-    table = new TableModel(this);
+   // table = new TableModel(this);
 
    // setUp();
 
@@ -73,14 +73,14 @@ void BookListWidget::readFromFile()
 void BookListWidget::addEntry(QString author, QString title, QString year)
 {
   //  if(!table->getBooks().contains({author,title,year})){
-        table->insertRows(0,1,QModelIndex());
+//        table->insertRows(0,1,QModelIndex());
 
-        QModelIndex index = table->index(0,0,QModelIndex());
-        table->setData(index,author, Qt::EditRole);
-        index = table->index(0,1,QModelIndex());
-        table->setData(index,title,Qt::EditRole);
-        index = table->index(0,2, QModelIndex());
-        table->setData(index,year, Qt::EditRole);
+//        QModelIndex index = table->index(0,0,QModelIndex());
+//        table->setData(index,author, Qt::EditRole);
+//        index = table->index(0,1,QModelIndex());
+//        table->setData(index,title,Qt::EditRole);
+//        index = table->index(0,2, QModelIndex());
+//        table->setData(index,year, Qt::EditRole);
 
 //    }else {
 //    QMessageBox::information(this, tr("Duplicate title and author"),
@@ -91,99 +91,99 @@ void BookListWidget::addEntry(QString author, QString title, QString year)
 
 void BookListWidget::editEntry()
 {
-   QItemSelectionModel *selectionModel = tableView->selectionModel();
+//   QItemSelectionModel *selectionModel = tableView->selectionModel();
 
-   QModelIndexList indexes = selectionModel->selectedRows();
-   QString author, title, year;
-   int row = -1;
-   foreach (QModelIndex index, indexes) {
-       row = proxyModel->mapToSource(index).row();
+//   QModelIndexList indexes = selectionModel->selectedRows();
+//   QString author, title, year;
+//   int row = -1;
+//   foreach (QModelIndex index, indexes) {
+//       row = proxyModel->mapToSource(index).row();
 
-       QModelIndex authorIndex = table->index(row, 0, QModelIndex());
-       QVariant varAuthor = table->data(authorIndex, Qt::DisplayRole);
-       author = varAuthor.toString();
+//       QModelIndex authorIndex = table->index(row, 0, QModelIndex());
+//       QVariant varAuthor = table->data(authorIndex, Qt::DisplayRole);
+//       author = varAuthor.toString();
 
-       QModelIndex titleIndex = table->index(row, 1, QModelIndex());
-       QVariant varTitle = table->data(titleIndex, Qt::DisplayRole);
-       title = varTitle.toString();
+//       QModelIndex titleIndex = table->index(row, 1, QModelIndex());
+//       QVariant varTitle = table->data(titleIndex, Qt::DisplayRole);
+//       title = varTitle.toString();
 
-       QModelIndex yearIndex = table->index(row, 2, QModelIndex());
-       QVariant varYear = table->data(yearIndex, Qt::DisplayRole);
-       year = varYear.toString();
+//       QModelIndex yearIndex = table->index(row, 2, QModelIndex());
+//       QVariant varYear = table->data(yearIndex, Qt::DisplayRole);
+//       year = varYear.toString();
 
-   }
+//   }
 
-       AddDialog aDialog;
-       aDialog.setWindowTitle(tr("Edit a book"));
+//       AddDialog aDialog;
+//       aDialog.setWindowTitle(tr("Edit a book"));
 
-       aDialog.authorText->setText(author);
-       aDialog.titleText->setText(title);
-       aDialog.yearText->setText(year);
+//       aDialog.authorText->setText(author);
+//       aDialog.titleText->setText(title);
+//       aDialog.yearText->setText(year);
 
-       if (aDialog.exec()) {
-           QString newAuthor = aDialog.authorText->toPlainText();
-           QString newTitle = aDialog.titleText->toPlainText();
-           QString newYear = aDialog.yearText->toPlainText();
+//       if (aDialog.exec()) {
+//           QString newAuthor = aDialog.authorText->toPlainText();
+//           QString newTitle = aDialog.titleText->toPlainText();
+//           QString newYear = aDialog.yearText->toPlainText();
 
-           if (newAuthor != author) {
-               QModelIndex index = table->index(row, 0, QModelIndex());
-               table->setData(index, newAuthor, Qt::EditRole);
-           }
-           if (newTitle != title) {
-               QModelIndex index = table->index(row, 1, QModelIndex());
-               table->setData(index, newTitle, Qt::EditRole);
-           }
-           if (newYear != year) {
-               QModelIndex index = table->index(row, 2, QModelIndex());
-               table->setData(index, newYear, Qt::EditRole);
-           }
-       }
+//           if (newAuthor != author) {
+//               QModelIndex index = table->index(row, 0, QModelIndex());
+//               table->setData(index, newAuthor, Qt::EditRole);
+//           }
+//           if (newTitle != title) {
+//               QModelIndex index = table->index(row, 1, QModelIndex());
+//               table->setData(index, newTitle, Qt::EditRole);
+//           }
+//           if (newYear != year) {
+//               QModelIndex index = table->index(row, 2, QModelIndex());
+//               table->setData(index, newYear, Qt::EditRole);
+//           }
+//       }
 }
 
 void BookListWidget::removeEntry()
 {
 
-    QItemSelectionModel *selectionModel = tableView->selectionModel();
-    //QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel*>(tableView->model());
-    QModelIndexList indexes = selectionModel->selectedRows();
+//    QItemSelectionModel *selectionModel = tableView->selectionModel();
+//    //QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel*>(tableView->model());
+//    QModelIndexList indexes = selectionModel->selectedRows();
 
-    //int size = indexes.size();
-    std::vector<int> reversedIndexes;
+//    //int size = indexes.size();
+//    std::vector<int> reversedIndexes;
 
-    foreach (QModelIndex index, indexes) {
-       int row = proxyModel->mapToSource(index).row();
-       reversedIndexes.push_back(row);
-       //table->removeRows(row,1,QModelIndex());
-    }
+//    foreach (QModelIndex index, indexes) {
+//       int row = proxyModel->mapToSource(index).row();
+//       reversedIndexes.push_back(row);
+//       //table->removeRows(row,1,QModelIndex());
+//    }
 
-    std::sort(reversedIndexes.begin(),reversedIndexes.end(),std::greater<int>());
+//    std::sort(reversedIndexes.begin(),reversedIndexes.end(),std::greater<int>());
 
-    for(const auto& v : reversedIndexes)
-        table->removeRows(v,1,QModelIndex());
+//    for(const auto& v : reversedIndexes)
+//        table->removeRows(v,1,QModelIndex());
 
 
 }
 
 void BookListWidget::setTableView(QTableView* &tableV)
 {
-    tableView = tableV;
+    //tableView = tableV;
 }
 
 void BookListWidget::filterEntry(QString author, QString title, QString year)
 {
-        qDebug() <<"filter triggered" << endl;
+//        qDebug() <<"filter triggered" << endl;
 
-        QVector<QString> vec;
+//        QVector<QString> vec;
 
-       // qCopy(table->getBooks().begin(),table->getBooks().end(),vec.begin())
+//       // qCopy(table->getBooks().begin(),table->getBooks().end(),vec.begin())
 
-        for(const auto& v : table->getBooks())
-            vec.push_back(v.year);
+//        for(const auto& v : table->getBooks())
+//            vec.push_back(v.year);
 
-        qSort(vec.begin(),vec.end());
+//        qSort(vec.begin(),vec.end());
 
-        for(auto v: vec)
-            qDebug() << v << endl;
+//        for(auto v: vec)
+//            qDebug() << v << endl;
 
 
 
@@ -196,35 +196,35 @@ void BookListWidget::filterEntry(QString author, QString title, QString year)
 void BookListWidget::setUp()
 {
 
-    proxyModel = new QSortFilterProxyModel(this);
-    proxyModel->setSourceModel(table);
-    proxyModel->setFilterKeyColumn(2);
+//    proxyModel = new QSortFilterProxyModel(this);
+//    proxyModel->setSourceModel(table);
+//    proxyModel->setFilterKeyColumn(2);
 
 
-    tableView->setModel(proxyModel);
+//    tableView->setModel(proxyModel);
 
-    tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableView->setSelectionMode(QAbstractItemView::MultiSelection);
-    tableView->setSortingEnabled(true);
+//    tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+//    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    tableView->setSelectionMode(QAbstractItemView::MultiSelection);
+//    tableView->setSortingEnabled(true);
 
 
-    connect(tableView->selectionModel(),
-            &QItemSelectionModel::selectionChanged,
-            this,
-            &BookListWidget::selectionChanged);
+//    connect(tableView->selectionModel(),
+//            &QItemSelectionModel::selectionChanged,
+//            this,
+//            &BookListWidget::selectionChanged);
 }
 
 QVector<QString> BookListWidget::setComboBox()
 {
 
-    QVector<QString> vec;
+//    QVector<QString> vec;
 
-   // qCopy(table->getBooks().begin(),table->getBooks().end(),vec.begin())
+//   // qCopy(table->getBooks().begin(),table->getBooks().end(),vec.begin())
 
-    for(const auto& v : table->getBooks())
-        vec.push_back(v.year);
+//    for(const auto& v : table->getBooks())
+//        vec.push_back(v.year);
 
-    qSort(vec.begin(),vec.end());
-    return vec;
+//    qSort(vec.begin(),vec.end());
+//    return vec;
 }

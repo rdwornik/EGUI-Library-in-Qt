@@ -24,7 +24,7 @@
 #include <QtAlgorithms>
 #include <QVector>
 #include <iterator>
-
+#include <mysortfilterproxymodel.h>
 
 #include "tablemodel.h"
 MainWindow::MainWindow(QWidget *parent) :
@@ -36,11 +36,15 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpModels();
     openFile();
 
+    ui->tableBookView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     connect(ui->editBookButton, &QAbstractButton::clicked,this, &MainWindow::editEntry);
     connect(ui->deleteBookButton, &QAbstractButton::clicked,this, &MainWindow::removeEntry);
     connect(ui->addBookButton, &QAbstractButton::clicked,this, &MainWindow::addEntrySlot);
     connect(ui->filterButton, &QAbstractButton::clicked,this, &MainWindow::filterEntry);
+    connect(ui->clearButton, &QAbstractButton::clicked,this, &MainWindow::filterClearEntry);
+
+
     connect(tableView->selectionModel(),
             &QItemSelectionModel::selectionChanged,
             this,
@@ -130,9 +134,9 @@ void MainWindow::editEntry()
         aDialog.yearText->setText(year);
 
         if (aDialog.exec()) {
-            QString newAuthor = aDialog.authorText->toPlainText();
-            QString newTitle = aDialog.titleText->toPlainText();
-            QString newYear = aDialog.yearText->toPlainText();
+            QString newAuthor = aDialog.authorText->text();
+            QString newTitle = aDialog.titleText->text();
+            QString newYear = aDialog.yearText->text();
 
             if (newAuthor != author) {
                 QModelIndex index = table->index(row, 0, QModelIndex());
@@ -152,16 +156,13 @@ void MainWindow::editEntry()
 void MainWindow::removeEntry()
 {
     QItemSelectionModel *selectionModel = tableView->selectionModel();
-    //QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel*>(tableView->model());
     QModelIndexList indexes = selectionModel->selectedRows();
 
-    //int size = indexes.size();
     std::vector<int> reversedIndexes;
 
     foreach (QModelIndex index, indexes) {
        int row = proxyModel->mapToSource(index).row();
        reversedIndexes.push_back(row);
-       //table->removeRows(row,1,QModelIndex());
     }
 
     std::sort(reversedIndexes.begin(),reversedIndexes.end(),std::greater<int>());
@@ -175,9 +176,9 @@ void MainWindow::addEntrySlot()
     AddDialog aDialog;
 
     if(aDialog.exec()){
-        QString author = aDialog.authorText->toPlainText();
-        QString title = aDialog.titleText->toPlainText();
-        QString year = aDialog.yearText->toPlainText();
+        QString author = aDialog.authorText->text();
+        QString title = aDialog.titleText->text();
+        QString year = aDialog.yearText->text();
 
         addEntry(author,title,year);
     }
@@ -188,6 +189,18 @@ void MainWindow::filterEntry()
     QString author = ui->authorLineEdit->text();
     QString title = ui->titleLineEdit->text();
     QString year = ui->comboBox->currentText();
+
+
+    proxyModel->setFilter(author,title,year);
+
+
+}
+
+void MainWindow::filterClearEntry()
+{
+    ui->authorLineEdit->setText(QString());
+    ui->titleLineEdit->setText(QString());
+    proxyModel->setFilter(QString(),QString(),QString());
 }
 
 void MainWindow::setMenuBarGrey()
@@ -200,12 +213,21 @@ void MainWindow::setMenuBarGrey()
 void MainWindow::setUpModels()
 {
 
+
+
     table = new TableModel(this);
     tableView = ui->tableBookView;
 
-    proxyModel = new QSortFilterProxyModel(this);
+    proxyModel = new MySortFilterProxyModel(this);
     proxyModel->setSourceModel(table);
+    proxyModel->setFilterKeyColumn(0);
+    proxyModel->setFilterKeyColumn(1);
     proxyModel->setFilterKeyColumn(2);
+
+
+    ui->comboBox->setModel(table);
+    ui->comboBox->setModelColumn(2);
+
 
     tableView->setModel(proxyModel);
 
@@ -213,6 +235,7 @@ void MainWindow::setUpModels()
     tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableView->setSelectionMode(QAbstractItemView::MultiSelection);
     tableView->setSortingEnabled(true);
+    tableView->sortByColumn(0, Qt::AscendingOrder);
 
 }
 

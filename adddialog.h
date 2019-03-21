@@ -13,9 +13,9 @@ class AddDialog : public QDialog
 
 public:
     AddDialog(QWidget *parent = 0);
-    QTextEdit *authorText;
-    QTextEdit *titleText;
-    QTextEdit *yearText;
+    QLineEdit *authorText;
+    QLineEdit *titleText;
+    QLineEdit *yearText;
 
 private:
     QLabel *authorLabel;

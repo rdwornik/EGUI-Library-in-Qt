@@ -28,14 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     tablemodel.cpp \
-    booklistwidget.cpp \
-    adddialog.cpp
+    adddialog.cpp \
+    mysortfilterproxymodel.cpp
 
 HEADERS += \
         mainwindow.h \
     tablemodel.h \
-    booklistwidget.h \
-    adddialog.h
+    adddialog.h \
+    mysortfilterproxymodel.h
 
 FORMS += \
     booklistwidget.ui

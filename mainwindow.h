@@ -6,7 +6,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTableView>
-
+#include "mysortfilterproxymodel.h"
 #include "tablemodel.h"
 namespace Ui {
 class MainWindow;
@@ -29,6 +29,7 @@ public slots:
         void editEntry();
         void removeEntry();
         void filterEntry();
+        void filterClearEntry();
 
 signals:
         void selectionChanged(const QItemSelection &selected);
@@ -40,9 +41,10 @@ private:
     void setUpModels();
     void addEntry(QString author, QString title, QString year);
 
-    QSortFilterProxyModel *proxyModel;
     TableModel *table;
     QTableView *tableView;
+    MySortFilterProxyModel *proxyModel;
+
 };
 
 #endif // MAINWINDOW_H

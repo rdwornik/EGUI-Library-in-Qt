@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_booklistwidget.h"
 #include "adddialog.h"
 #include <QPalette>
 #include <QStandardItemModel>
@@ -24,6 +24,7 @@
 #include <QtAlgorithms>
 #include <QVector>
 #include <iterator>
+#include <yearmodel.h>
 #include <mysortfilterproxymodel.h>
 
 #include "tablemodel.h"
@@ -41,10 +42,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->editBookButton, &QAbstractButton::clicked,this, &MainWindow::editEntry);
     connect(ui->deleteBookButton, &QAbstractButton::clicked,this, &MainWindow::removeEntry);
     connect(ui->addBookButton, &QAbstractButton::clicked,this, &MainWindow::addEntrySlot);
-    connect(ui->filterButton, &QAbstractButton::clicked,this, &MainWindow::filterEntry);
-    connect(ui->clearButton, &QAbstractButton::clicked,this, &MainWindow::filterClearEntry);
+    connect(ui->filterBooksButton, &QAbstractButton::clicked,this, &MainWindow::filterEntry);
+    connect(ui->clearFilterDialogButton, &QAbstractButton::clicked,this, &MainWindow::filterClearEntry);
 
-
+        yearModel_ = new yearModel(*table,this);
+    ui->yearComboBox->setModel(yearModel_);
     connect(tableView->selectionModel(),
             &QItemSelectionModel::selectionChanged,
             this,
@@ -188,7 +190,7 @@ void MainWindow::filterEntry()
 {
     QString author = ui->authorLineEdit->text();
     QString title = ui->titleLineEdit->text();
-    QString year = ui->comboBox->currentText();
+    QString year = ui->yearComboBox->currentText();
 
 
     proxyModel->setFilter(author,title,year);
@@ -216,6 +218,7 @@ void MainWindow::setUpModels()
 
 
     table = new TableModel(this);
+
     tableView = ui->tableBookView;
 
     proxyModel = new MySortFilterProxyModel(this);
@@ -225,8 +228,10 @@ void MainWindow::setUpModels()
     proxyModel->setFilterKeyColumn(2);
 
 
-    ui->comboBox->setModel(table);
-    ui->comboBox->setModelColumn(2);
+
+ //   ui->yearComboBox->setModelColumn(0);
+   //i->yearComboBox->
+
 
 
     tableView->setModel(proxyModel);

@@ -5,8 +5,9 @@
 #include<QLabel>
 #include<QLineEdit>
 #include<QTextEdit>
-
-
+#include<QGroupBox>
+#include<QDialogButtonBox>
+#include<QHBoxLayout>
 class AddDialog : public QDialog
 {
     Q_OBJECT
@@ -21,8 +22,11 @@ private:
     QLabel *authorLabel;
     QLabel *titleLabel;
     QLabel *yearLabel;
-
+    QGroupBox *formGroupBox;
     QPushButton *okButton;
     QPushButton *cancelButton;
+    QHBoxLayout *buttonLayout;
+    QDialogButtonBox *buttonBox;
+
 };
 #endif // ADDDIALOG_H

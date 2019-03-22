@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTableView>
+#include <yearmodel.h>
 #include "mysortfilterproxymodel.h"
 #include "tablemodel.h"
 namespace Ui {
@@ -41,6 +42,7 @@ private:
     void setUpModels();
     void addEntry(QString author, QString title, QString year);
 
+    yearModel *yearModel_;
     TableModel *table;
     QTableView *tableView;
     MySortFilterProxyModel *proxyModel;

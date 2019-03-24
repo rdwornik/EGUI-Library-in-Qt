@@ -41,6 +41,8 @@ private:
     void setMenuBarGrey();
     void setUpModels();
     void addEntry(QString author, QString title, QString year);
+    bool isNumber(const QString& year);
+
 
     yearModel *yearModel_;
     TableModel *table;

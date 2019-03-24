@@ -5,6 +5,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QFormLayout>
+#include <QDebug>
 AddDialog::AddDialog(QWidget *parent)
     : QDialog (parent)
 {
@@ -15,7 +16,8 @@ AddDialog::AddDialog(QWidget *parent)
         authorText = new QLineEdit;
         titleText = new QLineEdit;
         yearText = new QLineEdit;
-
+        errorMessage = new QErrorMessage(this);
+        errorMessage->topLevelWidget();
 
 
         formGroupBox = new QGroupBox(tr("Data"));
@@ -42,7 +44,6 @@ AddDialog::AddDialog(QWidget *parent)
 
         setLayout(mainLayout);
         setWindowTitle(tr("Add a book"));
-
 
 
 
@@ -84,5 +85,36 @@ AddDialog::AddDialog(QWidget *parent)
 
 
 
-//        setWindowTitle(tr("Add a book"));
+        //        setWindowTitle(tr("Add a book"));
+}
+
+void AddDialog::done(int r)
+{
+    if(r == QDialog::Accepted){
+        if(!isNumber() && isEmpty()){
+            errorMessage->showMessage("No such a year and title and author label can't be empty");
+            return;
+        }else if (isEmpty()) {
+            errorMessage->showMessage("title and author label can't be empty");
+            return;
+        }else if (!isNumber()) {
+            errorMessage->showMessage("No such a year");
+            return;
+        }
+    }
+
+    QDialog::done(r);
+}
+
+bool AddDialog::isNumber()
+{
+        return yearText->text().toInt() && yearText->text().size() && std::find_if(yearText->text().begin(),yearText->text().end(),[](QChar c){
+            return c.isDigit();
+        });
+}
+
+bool AddDialog::isEmpty()
+{
+
+    return (authorText->text().isEmpty() && titleText->text().isEmpty());
 }

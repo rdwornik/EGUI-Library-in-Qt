@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_booklistwidget.h"
 #include "adddialog.h"
+#include "yearmodel.h"
+#include "mysortfilterproxymodel.h"
+
+#include "tablemodel.h"
 #include <QPalette>
 #include <QStandardItemModel>
 #include <QTextStream>
@@ -10,28 +14,21 @@
 #include <QString>
 #include <QDebug>
 #include <QComboBox>
-#include <adddialog.h>
-#include <QMessageBox>
-
 #include <QMessageBox>
 #include <QModelIndex>
 #include <QFileDialog>
-#include <QtDebug>
 #include <sstream>
-#include <adddialog.h>
 #include <vector>
 #include <algorithm>
 #include <QtAlgorithms>
 #include <QVector>
 #include <iterator>
-#include <yearmodel.h>
-#include <mysortfilterproxymodel.h>
 
-#include "tablemodel.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
        ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     setMenuBarGrey();
     setUpModels();
@@ -45,8 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->filterBooksButton, &QAbstractButton::clicked,this, &MainWindow::filterEntry);
     connect(ui->clearFilterDialogButton, &QAbstractButton::clicked,this, &MainWindow::filterClearEntry);
 
-        yearModel_ = new yearModel(*table,this);
-    ui->yearComboBox->setModel(yearModel_);
+
     connect(tableView->selectionModel(),
             &QItemSelectionModel::selectionChanged,
             this,
@@ -135,7 +131,10 @@ void MainWindow::editEntry()
         aDialog.titleText->setText(title);
         aDialog.yearText->setText(year);
 
+
+
         if (aDialog.exec()) {
+
             QString newAuthor = aDialog.authorText->text();
             QString newTitle = aDialog.titleText->text();
             QString newYear = aDialog.yearText->text();
@@ -154,7 +153,6 @@ void MainWindow::editEntry()
             }
         }
 }
-
 void MainWindow::removeEntry()
 {
     QItemSelectionModel *selectionModel = tableView->selectionModel();
@@ -202,7 +200,10 @@ void MainWindow::filterClearEntry()
 {
     ui->authorLineEdit->setText(QString());
     ui->titleLineEdit->setText(QString());
+    int index = ui->yearComboBox->findText("");
+    ui->yearComboBox->setCurrentIndex(index);
     proxyModel->setFilter(QString(),QString(),QString());
+
 }
 
 void MainWindow::setMenuBarGrey()
@@ -227,12 +228,8 @@ void MainWindow::setUpModels()
     proxyModel->setFilterKeyColumn(1);
     proxyModel->setFilterKeyColumn(2);
 
-
-
- //   ui->yearComboBox->setModelColumn(0);
-   //i->yearComboBox->
-
-
+    yearModel_ = new yearModel(*table,this);
+    ui->yearComboBox->setModel(yearModel_);
 
     tableView->setModel(proxyModel);
 
@@ -260,7 +257,18 @@ void MainWindow::addEntry(QString author, QString title, QString year)
       QMessageBox::information(this, tr("Duplicate title and author"),
                                tr("The author  \"%1\" and title \"%2\" already exists.")
                                .arg(author,title));
-  }
+      }
 }
+
+bool MainWindow::isNumber(const QString& year)
+{
+    return year.toInt() && year.size() && std::find_if(year.begin(),year.end(),[](QChar c){
+        return c.isDigit();
+    });
+}
+
+
+
+
 
 

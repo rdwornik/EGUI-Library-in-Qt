@@ -8,6 +8,8 @@
 #include<QGroupBox>
 #include<QDialogButtonBox>
 #include<QHBoxLayout>
+#include <QErrorMessage>
+
 class AddDialog : public QDialog
 {
     Q_OBJECT
@@ -18,7 +20,11 @@ public:
     QLineEdit *titleText;
     QLineEdit *yearText;
 
+public slots:
+    void done(int r) override;
+
 private:
+    QErrorMessage *errorMessage;
     QLabel *authorLabel;
     QLabel *titleLabel;
     QLabel *yearLabel;
@@ -27,6 +33,8 @@ private:
     QPushButton *cancelButton;
     QHBoxLayout *buttonLayout;
     QDialogButtonBox *buttonBox;
+    bool isNumber();
+    bool isEmpty();
 
 };
 #endif // ADDDIALOG_H

@@ -216,8 +216,6 @@ void MainWindow::setMenuBarGrey()
 void MainWindow::setUpModels()
 {
 
-
-
     table = new TableModel(this);
 
     tableView = ui->tableBookView;

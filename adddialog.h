@@ -35,6 +35,7 @@ private:
     QDialogButtonBox *buttonBox;
     bool isNumber();
     bool isEmpty();
+    bool checkSemi();
 
 };
 #endif // ADDDIALOG_H

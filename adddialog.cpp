@@ -45,59 +45,22 @@ AddDialog::AddDialog(QWidget *parent)
         setLayout(mainLayout);
         setWindowTitle(tr("Add a book"));
 
-
-
-
-
-
-//         buttonLayout = new QHBoxLayout;
-//                buttonLayout->addWidget(okButton);
-//                buttonLayout->addWidget(cancelButton);
-
-       // connect(buttonBox->button(QDialogButtonBox::Ok), &QDialogButtonBox::clicked, this, &QDialog::accept);
-        //connect(cancelButton, &QAbstractButton::clicked, this, &QDialog::reject);
-
-//        auto *gLayout = new QGridLayout;
-
-//        gLayout->setColumnStretch(1,3);
-
-
-
-//        gLayout->addWidget(authorLabel,0,0);
-//        gLayout->addWidget(authorText,0,1);
-
-//        gLayout->addWidget(titleLabel, 1, 0, Qt::AlignLeft|Qt::AlignTop);
-//        gLayout->addWidget(titleText, 1, 1, Qt::AlignLeft);
-
-//        gLayout->addWidget(yearLabel, 2, 0, Qt::AlignLeft|Qt::AlignBottom);
-//        gLayout->addWidget(yearText, 2, 1, Qt::AlignLeft);
-
-
-//        QHBoxLayout *buttonLayout = new QHBoxLayout;
-//        buttonLayout->addWidget(okButton);
-//        buttonLayout->addWidget(cancelButton);
-
-//        gLayout->addLayout(buttonLayout, 2, 1, Qt::AlignRight);
-
-//        QVBoxLayout *mainLayout = new QVBoxLayout;
-//        mainLayout->addLayout(gLayout);
-//        setLayout(mainLayout);
-
-
-
-        //        setWindowTitle(tr("Add a book"));
 }
 
 void AddDialog::done(int r)
 {
-    if(r == QDialog::Accepted){
+    if(r == QDialog::Accepted){   
         if(!isNumber() && isEmpty()){
             errorMessage->showMessage("No such a year and title and author label can't be empty");
             return;
         }else if (isEmpty()) {
             errorMessage->showMessage("title and author label can't be empty");
             return;
-        }else if (!isNumber()) {
+        }else if (checkSemi()) {
+            errorMessage->showMessage("can't use semicolon either in title or author");
+            return;
+        }
+        else if (!isNumber()) {
             errorMessage->showMessage("No such a year");
             return;
         }
@@ -118,3 +81,13 @@ bool AddDialog::isEmpty()
 
     return (authorText->text().isEmpty() && titleText->text().isEmpty());
 }
+
+bool AddDialog::checkSemi()
+{
+    return std::find_if(authorText->text().begin(),authorText->text().end(),[](QChar c){
+        return (c == ";");
+    }) && std::find_if(authorText->text().begin(),authorText->text().end(),[](QChar c){
+    return (c == ";");
+    });
+}
+
